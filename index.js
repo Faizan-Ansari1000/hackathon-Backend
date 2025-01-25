@@ -11,8 +11,8 @@ App.use(cors());
 App.use(express.json());
 
 // Routes
-App.use('/', authRoute);
-App.use('/', crudRoute);
+App.use('/auth', authRoute);
+App.use('/crud', crudRoute);
 
 // Database connection and server setup
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
