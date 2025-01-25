@@ -10,6 +10,10 @@ const cors = require('cors');
 App.use(cors());
 App.use(express.json());
 
+App.get('/', (req, res) => {
+    res.send('Welcome to the Backend API!');
+});
+
 // Routes
 App.use('/auth', authRoute);
 App.use('/crud', crudRoute);
@@ -25,3 +29,4 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     .catch((err) => {
         console.log('Error connecting to DB:', err.message);
     });
+
