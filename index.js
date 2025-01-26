@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoute = require('./routes/authRoutes');
 const crudRoute = require('./routes/crudRoutes');
-const business = require('./routes/businessRoute');
 require('dotenv').config();
 const App = express();
 const cors = require('cors');
@@ -18,7 +17,6 @@ App.get('/', (req, res) => {
 // Routes
 App.use('/auth', authRoute);
 App.use('/crud', crudRoute);
-App.use('/', business);
 
 // Database connection and server setup
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
