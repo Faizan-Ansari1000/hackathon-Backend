@@ -36,7 +36,8 @@ authRoute.post('/signUp', async (req, res) => {
 })
 
 
-//LoginauthRoute.post('/Login', async (req, res) => {
+// Login
+authRoute.post('/Login', async (req, res) => {
     const { email, password } = req.body;
     try {
         if (!email || !password) {
