@@ -40,24 +40,43 @@ authRoute.post('/Login', async (req, res) => {
     const { email, password } = req.body;
     try {
         if (!email || !password) {
-            return res.status(401).json({ message: 'Validation error' })
+            return res.status(401).json({ message: 'Validation error' });
         }
 
-        const existingUser = await User.findOne({ email })
+        // Hardcoded admin email and password check
+        if (email === 'admin123@gmail.com' && password === 'admin123') {
+            const token = crypto.randomBytes(16).toString('hex');
+            return res.status(200).json({
+                isSuccessfully: true,
+                message: 'Admin Logged In Successfully',
+                token: token,
+                role: 'admin'
+            });
+        }
+
+        // Check for user in the database
+        const existingUser = await User.findOne({ email });
         if (!existingUser) {
-            return res.status(404).json({ isSuccessfully: false, message: 'Email not Found' })
+            return res.status(404).json({ isSuccessfully: false, message: 'Email not Found' });
         }
 
-        const isMatchedPassword = await bcrypt.compare(password, existingUser.password)
+        const isMatchedPassword = await bcrypt.compare(password, existingUser.password);
         if (!isMatchedPassword) {
-            return res.status(401).json({ message: 'Invalid Password' })
+            return res.status(401).json({ message: 'Invalid Password' });
         }
 
-        res.status(201).json({ isSuccessfully: true, message: 'User is Successfully Logged In' })
+        // Generate token for user
+        const token = crypto.randomBytes(16).toString('hex');
+        return res.status(200).json({
+            isSuccessfully: true,
+            message: 'User Logged In Successfully',
+            token: token,
+            role: 'user'
+        });
 
     } catch (error) {
-        res.status(500).json({ isSuccessfully: false, message: 'Internal server error', error })
+        res.status(500).json({ isSuccessfully: false, message: 'Internal server error', error });
     }
-})
+});
 
 module.exports = authRoute;
